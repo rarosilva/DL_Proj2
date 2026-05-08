@@ -1,11 +1,11 @@
 import torch.nn as nn
 
 class DQN(nn.Module):
-    def __init__(self, n_actions = 2):
+    def __init__(self, n_actions = 2, n_frames = 1):
         super().__init__()
 
         self.features = nn.Sequential(
-            nn.Conv2d(3, 16, kernel_size=3, stride=1, padding=1),
+            nn.Conv2d(3*n_frames, 16, kernel_size=3, stride=1, padding=1),
             nn.ReLU(),
             nn.MaxPool2d(2, 2),
 
