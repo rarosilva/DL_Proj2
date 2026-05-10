@@ -22,7 +22,36 @@ Actions:
 from __future__ import annotations
 import numpy as np
 import torch
-from model import DQN
+import torch.nn as nn
+import os
+
+N_ACTIONS = 2
+
+class DQN(nn.Module):
+    def __init__(self, n_frames = 1, dropout = 0.0):
+        super().__init__()
+
+        self.features = nn.Sequential(
+            nn.Conv2d(3 * n_frames, 16, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(2, 2),
+
+            nn.Conv2d(16, 32, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(2, 2)
+        )
+
+        self.classifier = nn.Sequential(
+            nn.AdaptiveMaxPool2d((2, 2)),
+            nn.Flatten(),
+            nn.Dropout(dropout),
+            nn.Linear(32 * 2 * 2, N_ACTIONS)
+        )
+
+    def forward(self, x):
+        x = self.features(x)
+        x = self.classifier(x)
+        return x
 
 class Agent:
     """Your RL agent for SpaceRace-v0."""
@@ -37,8 +66,9 @@ class Agent:
 
         If you load a file, make sure it is included in your submission zip.
         """
-        self.model = DQN()
-        self.model.load_state_dict(torch.load("model.pt"))
+        self.model = DQN(n_frames=1, dropout=0.0)
+        model_path = os.path.join(os.path.dirname(__file__), "model.pt")
+        self.model.load_state_dict(torch.load(model_path, map_location=torch.device("cpu")))
 
     def select_action(self, obs: np.ndarray) -> int:
         """
@@ -50,12 +80,12 @@ class Agent:
         Returns:
             action: int — 0 (move up) or 1 (move down).
         """
-        t = torch.tensor(obs, dtype=torch.float32)
-        t = t / 255.0
-        t = t.permute(2, 0, 1)
-        obs = t.unsqueeze(0)
-
+        obs = torch.tensor(obs.astype(np.float32) / 255.0)
+        if obs.ndim == 3: # add batch dimension = 1 if a single frame is passed
+            obs = obs.unsqueeze(0)
+        obs = obs.permute(0, 3, 1, 2) # (N, C, H, W)
+        
         with torch.no_grad():
             q_values = self.model(obs)
-            action = q_values.argmax(dim=1).item()
+            action = q_values.argmax().item()
         return int(action)
