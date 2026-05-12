@@ -1,0 +1,114 @@
+{
+  "heuristic/base/diff0": {
+    "score_mean": 11.0,
+    "score_std": 0.0,
+    "q_val": null,
+    "n_episodes": null,
+    "notes": null
+  },
+  "heuristic/base/diff1": {
+    "score_mean": 11.0,
+    "score_std": 0.0,
+    "q_val": null,
+    "n_episodes": null,
+    "notes": null
+  },
+  "heuristic/base/diff2": {
+    "score_mean": 8.9,
+    "score_std": 3.048,
+    "q_val": null,
+    "n_episodes": null,
+    "notes": null
+  },
+  "heuristic/base/diff3": {
+    "score_mean": 8.4,
+    "score_std": 2.4166,
+    "q_val": null,
+    "n_episodes": null,
+    "notes": null
+  },
+  "heuristic/dev/diff0": {
+    "score_mean": 13.0,
+    "score_std": 0.0,
+    "q_val": null,
+    "n_episodes": null,
+    "notes": null
+  },
+  "heuristic/dev/diff1": {
+    "score_mean": 16.0,
+    "score_std": 0.0,
+    "q_val": null,
+    "n_episodes": null,
+    "notes": null
+  },
+  "heuristic/dev/diff2": {
+    "score_mean": 11.4,
+    "score_std": 1.9079,
+    "q_val": null,
+    "n_episodes": null,
+    "notes": null
+  },
+  "heuristic/dev/diff3": {
+    "score_mean": 9.4,
+    "score_std": 1.3565,
+    "q_val": null,
+    "n_episodes": null,
+    "notes": null
+  },
+  "heuristic/v2/diff0": {
+    "score_mean": 0.0,
+    "score_std": 0.0,
+    "q_val": null,
+    "n_episodes": null,
+    "notes": null
+  },
+  "heuristic/v2/diff1": {
+    "score_mean": 0.0,
+    "score_std": 0.0,
+    "q_val": null,
+    "n_episodes": null,
+    "notes": null
+  },
+  "heuristic/v2/diff2": {
+    "score_mean": 0.0,
+    "score_std": 0.0,
+    "q_val": null,
+    "n_episodes": null,
+    "notes": null
+  },
+  "heuristic/v2/diff3": {
+    "score_mean": 0.0,
+    "score_std": 0.0,
+    "q_val": null,
+    "n_episodes": null,
+    "notes": null
+  },
+  "final/diff0": {
+    "score_mean": 4.0,
+    "score_std": 0.0,
+    "q_val": 2.0845,
+    "n_episodes": 20,
+    "notes": "final model after diff0 curriculum"
+  },
+  "final/diff1": {
+    "score_mean": 13.0,
+    "score_std": 0.0,
+    "q_val": 2.3083,
+    "n_episodes": 15,
+    "notes": "final model after diff1 curriculum"
+  },
+  "arch/DQN_Adam": {
+    "score_mean": 11.0,
+    "score_std": 0.0,
+    "q_val": 1.9877,
+    "n_episodes": 10,
+    "notes": "Section 3.2"
+  },
+  "arch/DQN_RMS": {
+    "score_mean": 1.0,
+    "score_std": 0.0,
+    "q_val": 2.4112,
+    "n_episodes": 10,
+    "notes": "Section 3.2"
+  }
+}
