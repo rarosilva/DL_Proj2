@@ -24,6 +24,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 import os
+from collections import deque
 
 N_ACTIONS = 2
 
@@ -66,7 +67,12 @@ class Agent:
 
         If you load a file, make sure it is included in your submission zip.
         """
-        self.model = DQN(n_frames=1, dropout=0.0)
+
+        self.n_frames = 4
+        self.frame_buffer = deque(maxlen=self.n_frames)
+        self.is_first_obs = True
+
+        self.model = DQN(n_frames=4, dropout=0.0)
         model_path = os.path.join(os.path.dirname(__file__), "model.pt")
         self.model.load_state_dict(torch.load(model_path, map_location=torch.device("cpu")))
 
@@ -80,7 +86,19 @@ class Agent:
         Returns:
             action: int — 0 (move up) or 1 (move down).
         """
-        obs = torch.tensor(obs.astype(np.float32) / 255.0)
+
+        #frame stacking
+        if self.is_first_obs:
+            for _ in range(self.n_frames):
+                self.frame_buffer.append(obs.copy())
+            self.is_first_obs = False
+        else:
+            self.frame_buffer.append(obs.copy())
+
+        stacked_obs_np = np.concatenate(list(self.frame_buffer), axis=-1)
+
+
+        obs = torch.tensor(stacked_obs_np.astype(np.float32) / 255.0)
         if obs.ndim == 3: # add batch dimension = 1 if a single frame is passed
             obs = obs.unsqueeze(0)
         obs = obs.permute(0, 3, 1, 2) # (N, C, H, W)
